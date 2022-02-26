@@ -1,6 +1,5 @@
 
 // Promise
-console.log("Promise");
 
 // HTTP Request to TODO API
 fetch('https://jsonplaceholder.typicode.com/todos')
@@ -19,8 +18,6 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 
 
 // Async await
-
-console.log("async / await");
 
 // Async function
 async function requestTODOs() {
