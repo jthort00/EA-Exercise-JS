@@ -31,7 +31,12 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 .then( json => { 
   console.log(json)
   // Filter by completed
-  const completedTasks = json.filter( todo => todo.completed == true);
+  const completedTasks = json
+    .filter( todo => todo.completed == true)
+    .sort( (a, b) => b.id - a.id )
+    .reduce(function (allUsers, todo) {
+      return Array.from(new Set([...allUsers, todo.userId]));
+    }, []);
   console.log(completedTasks)
 })
 .catch( err => console.log(`Error: ${err}`))
