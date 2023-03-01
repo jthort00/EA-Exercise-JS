@@ -1,19 +1,40 @@
+// Callback Hell
+
+setTimeout(function() {
+  console.log("First timer complete.")
+  setTimeout(function() {
+    console.log("Second timer complete.")
+    setTimeout(function() {
+      console.log("Third timer complete.")
+      setTimeout(function() {
+        console.log("Fourth timer complete.")
+        setTimeout(function() {
+          console.log("Fifth timer complete.")
+        }, 3000)
+      }, 3000)
+    }, 3000)
+  }, 3000)
+}, 3000)
+
 
 // Promise
 
 // HTTP Request to TODO API
 fetch('https://jsonplaceholder.typicode.com/todos')
 // HTTP Response to JSON
-.then( (response) => { 
-  return response.json();
+.then( response => {
+  if (!response.ok)
+    throw new Error(`HTTP Error (${response.status})`)
+  return response.json() 
 })
 // JSON process
-.then( (json) => { 
+.then( json => { 
   console.log(json)
   // Filter by completed
   const completedTasks = json.filter( todo => todo.completed == true);
   console.log(completedTasks)
 })
+.catch( err => console.log(`Error: ${err}`))
 
 
 
@@ -23,15 +44,18 @@ fetch('https://jsonplaceholder.typicode.com/todos')
 async function requestTODOs() {
   // HTTP Request to TODO API
   const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+  if (!response.ok)
+    throw new Error(`HTTP Error (${response.status})`)
   // HTTP Response to JSON
   const json = await response.json();
   return json;
 }
 
-requestTODOs().then( (json) => {
+requestTODOs().then( json => {
   // JSON process
   console.log(json)
   // Filter by completed
   const completedTasks = json.filter( todo => todo.completed == true);
   console.log(completedTasks)
 })
+.catch( err => console.log(`Error: ${err}`))
