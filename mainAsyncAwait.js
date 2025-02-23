@@ -3,32 +3,44 @@
 // Async await
 //
 
+// Función que hace una solicitud a la API usando fetch y devuelve una promesa
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    throw new Error(`Fetch error: ${err.message}`);
+  }
+}
+
 // Definir una función asíncrona
-async function fetchData() {
+async function fetchComments() {
   try {
     // Obtener el primer post
-    const postResponse = await fetch('https://jsonplaceholder.typicode.com/posts/1');
-    if (!postResponse.ok) throw new Error(`HTTP error! Status: ${postResponse.status}`);
-    const post = await postResponse.json();
+    const post = await fetchData('https://jsonplaceholder.typicode.com/posts/1');
     console.log('Post:', post);
 
     // Obtener el usuario basado en el userId del post
-    const userResponse = await fetch(`https://jsonplaceholder.typicode.com/users/${post.userId}`);
-    if (!userResponse.ok) throw new Error(`HTTP error! Status: ${userResponse.status}`);
-    const user = await userResponse.json();
+    const user = await fetchData(`https://jsonplaceholder.typicode.com/users/${post.userId}`);
     console.log('User:', user);
 
     // Obtener todos los posts del usuario
-    const postsResponse = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${user.id}`);
-    if (!postsResponse.ok) throw new Error(`HTTP error! Status: ${postsResponse.status}`);
-    const posts = await postsResponse.json();
+    const posts = await fetchData(`https://jsonplaceholder.typicode.com/posts?userId=${user.id}`);
     console.log(`All posts by user:`, posts);
 
-    // Obtener los comentarios del primer post de la lista de posts del usuario
-    const commentsResponse = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${posts[0].id}`);
-    if (!commentsResponse.ok) throw new Error(`HTTP error! Status: ${commentsResponse.status}`);
-    const comments = await commentsResponse.json();
-    console.log('Comments on the first post:', comments);
+    // Obtener todos los comentarios de todos posts del usuario
+    // map devuelve un array de promesas
+    const commentsPromises = posts.map(post => 
+      fetchData(`https://jsonplaceholder.typicode.com/comments?postId=${post.id}`)
+    );
+    const comments = await Promise.all(commentsPromises);
+    console.log('All comments by user:', comments);
 
   } catch (error) {
     // Manejo de errores
@@ -37,4 +49,4 @@ async function fetchData() {
 }
 
 // Llamar a la función asíncrona
-fetchData();
+fetchComments();

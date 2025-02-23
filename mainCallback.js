@@ -5,16 +5,15 @@
 
 // Función para hacer una solicitud a la API
 function fetchData(url, callback) {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      callback(null, JSON.parse(xhr.responseText));
-    } else if (xhr.readyState === 4) {
-      callback(`Error: ${xhr.status}`);
-    }
-  };
-  xhr.send();
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => callback(null, data))
+    .catch(error => callback(error, null));
 }
 
 // Inicio del callback hell
