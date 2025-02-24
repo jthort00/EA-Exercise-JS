@@ -41,7 +41,10 @@ async function fetchComments() {
     );
     const comments = await Promise.all(commentsPromises);
     console.log('All comments by user:', comments);
-
+    result = comments.flat()
+      .map(comment => comment.name)
+      .join(', ');
+    console.log('Result:', result);
   } catch (error) {
     // Manejo de errores
     console.error(error);

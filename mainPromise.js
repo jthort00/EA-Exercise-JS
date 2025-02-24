@@ -46,6 +46,10 @@ fetchData('https://jsonplaceholder.typicode.com/posts/1')
   })
   .then(comments => {
     console.log('All comments:', comments);
+    result = comments.flat()
+      .map(comment => comment.name)
+      .join(', ');
+    console.log('Result:', result);
   })
   .catch(err => {
     console.error(err);
