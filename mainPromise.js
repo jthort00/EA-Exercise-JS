@@ -28,6 +28,10 @@ fetchData('https://jsonplaceholder.typicode.com/posts/1')
     return fetchData(`https://jsonplaceholder.typicode.com/users/${post.userId}`);
   })
   .then(user => {
+    Object.keys(user).map(key => { // iterar sobre las propiedades del objeto
+      console.log(key, ":", user[key]); 
+    });  
+
     console.log('User:', user);
     // fetch del todos los posts del user del post 1
     return fetchData(`https://jsonplaceholder.typicode.com/posts?userId=${user.id}`);

@@ -28,7 +28,12 @@ async function fetchComments() {
 
     // Obtener el usuario basado en el userId del post
     const user = await fetchData(`https://jsonplaceholder.typicode.com/users/${post.userId}`);
+    
     console.log('User:', user);
+
+    Object.keys(user).map(key => { // iterar sobre las propiedades del objeto
+      console.log(key, ":", user[key]); 
+    });   
 
     // Obtener todos los posts del usuario
     const posts = await fetchData(`https://jsonplaceholder.typicode.com/posts?userId=${user.id}`);
