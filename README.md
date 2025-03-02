@@ -20,4 +20,4 @@ node main.js
 
 - [JSONPlaceholder](https://jsonplaceholder.typicode.com/): API falsa utilitzada per obtenir dades d'usuaris, posts i comentaris.
 - [ChatGPT](https://chat.openai.com/).
-- [Repositori GitHub] https://github.com/rocmeseguer/EA-JS
+- [Repositori GitHub] (https://github.com/rocmeseguer/EA-JS)/.
